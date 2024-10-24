@@ -1,7 +1,7 @@
 
 
 
-export function renderizarSuperheroe(superheroe){
+export function renderizarSuperHeroe(superheroe){
     return JSON.stringify(superheroe, null, 2);
 }
 

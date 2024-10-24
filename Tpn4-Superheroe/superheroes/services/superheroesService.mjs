@@ -1,5 +1,5 @@
 
-import { SuperheroesRepository } from '../persistence/superheroesRepository.mjs'
+import SuperheroesRepository from '../persistence/superheroesRepository.mjs'
 
 const repository = new SuperheroesRepository();
 

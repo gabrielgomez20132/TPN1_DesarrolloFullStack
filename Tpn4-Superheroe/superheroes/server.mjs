@@ -21,5 +21,5 @@ app.get('/superheroes/filtros', obtenerSUperheroesMayorDe30YConFiltrosController
 
 //puerto donde corre
 app.listen(PORT, () => {
-    console.log(`Servidor conrriendo en el puerto ${PORT}`);
+    console.log(`Servidor corriendo en http://localhost:${port}`);
 });
