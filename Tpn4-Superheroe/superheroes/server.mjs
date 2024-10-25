@@ -6,7 +6,7 @@ import {obtenerTodosSuperheroes, obtenerSuperheroePorIdController, agregarNuevoS
 const app = express();
 app.use(express.json());
 
-const PORT = 3005;
+const port = 3005;
 
 
 //routing
@@ -20,6 +20,6 @@ app.get('/superheroes/filtros', obtenerSUperheroesMayorDe30YConFiltrosController
 
 
 //puerto donde corre
-app.listen(PORT, () => {
+app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });
