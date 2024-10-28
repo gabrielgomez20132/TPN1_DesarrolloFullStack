@@ -12,9 +12,9 @@ export function obtenerSuperheroePorId(id){
     return superheroes.find(hero => hero.id === id);
 }
 
-export function agregarSuperheroe(datos){
+export function agregarSuperheroe(datos){   
     const superheroes = repository.obtenerTodos();
-    const nuevoSuperheroe = {id : superheroes.length + 1, ...datos};
+    const nuevoSuperheroe = {id : superheroes.length + 1, ...datos};//id autoincremental, Toma todas las propiedades del objeto datos y las añade al nuevo objeto.
     superheroes.push(nuevoSuperheroe);
     repository.guardar(superheroes);
 
