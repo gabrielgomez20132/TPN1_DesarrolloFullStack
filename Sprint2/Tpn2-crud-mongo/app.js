@@ -88,6 +88,17 @@ const superheroeSchema = new mongoose.Schema({
     
   }
 
-  insertSuperHero();
+  async function findSuperHero(){
+    try {
+      const heroes = await Superheroe.find({ planetaOrigen : 'Tierra'}) ; 
+      console.log('Super heroes encontrados', heroes);
+      
+    } catch (error) {
+      console.error('Error al buscar el superhéroe:', error);
+    }
+  }
+
+  //insertSuperHero();
   //updateSuperHero('Batman');
   //deleteSuperHero('Batman');
+  findSuperHero();
