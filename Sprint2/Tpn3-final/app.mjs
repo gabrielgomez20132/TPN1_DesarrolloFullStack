@@ -1,6 +1,7 @@
+
 import express from 'express';
 import { connectDB } from './src/config/dbConfig.mjs';
-import { superHeroRoutes } from './routes/superHeroRoutes';
+import router from './src/routes/superHeroRoutes.mjs';
 
 
 const app = express();
@@ -13,7 +14,7 @@ app.use(express.json());
 connectDB();
 
 //config de rutas
-app.use('/api', superHeroRoutes);
+app.use('/api', router);
 
 //errores rutas no encontradas
 app.use((req, res) => {

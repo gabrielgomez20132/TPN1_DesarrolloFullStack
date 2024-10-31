@@ -1,10 +1,11 @@
-import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes, buscarSuperheroesPorAtributo, obtenerSuperHeroesMayoresDe30 } from '../services/superHeroService.mjs';
+import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes, 
+    buscarSuperHeroesPorAtributo, obtenerSuperHeroesMayoresDe30 } from '../services/SuperHeroService.mjs';
 import { renderizarSuperHeroe, renderizarListaSuperheroes } from '../views/responseView.mjs';
 
 export async function obtenerSuperHeroePorIdController(req, res){
     const { id } = req.params;
     const superheroe = await obtenerSuperHeroePorId(id);
-
+    
     if(superheroe){
         res.send(renderizarSuperHeroe(superheroe));
     }
@@ -13,14 +14,18 @@ export async function obtenerSuperHeroePorIdController(req, res){
     }
 }
 
-export async function obtenerTodosLosSuperHeroesController(){
+export async function obtenerTodosLosSuperHeroesController(req, res){
     const superheroes = await obtenerTodosLosSuperHeroes();
-    res.send(renderizarSuperHeroe(superheroes));
+
+     // Renderiza y formatea la lista de superhéroes
+    const listaRenderizada = renderizarListaSuperheroes(superheroes);
+    // Envía la respuesta como JSON
+    res.json(listaRenderizada);
 }
 
 export async function buscarSuperheroesPorAtributoController(req, res){
     const {atributo, valor} = req.params;
-    const superheroes = await buscarSuperheroesPorAtributo(atributo, valor);
+    const superheroes = await buscarSuperHeroesPorAtributo(atributo, valor);
 
     if(superheroes.length > 0){
         res.send(renderizarListaSuperheroes(superheroes));
