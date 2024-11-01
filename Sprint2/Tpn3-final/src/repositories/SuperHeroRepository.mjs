@@ -4,7 +4,17 @@ import SuperHero from "../models/SuperHero.mjs";
 class SuperHeroRepository extends IRepository{
 
     async obtenerId(id){
-        return await SuperHero.findById(id);
+
+        //return await SuperHero.findById(id);   buscar por el objectId
+
+        const superHero = await SuperHero.findOne({ id: Number(id) });
+    
+    
+        if (!superHero) {
+            console.log('Superhéroe no encontrado.');
+        }
+    
+        return superHero;
     }
 
     async obtenerTodos(){
