@@ -33,8 +33,8 @@ class SuperHeroRepository extends IRepository{
             {
                 edad: { $gt: 30 },
                 planetaOrigen: 'Tierra',
-                //poderes: { $size: { $gte: 2 } }
-                //$expr: { $gte: [{ $size: "$poderes" }, 2] } // Al menos 2 poderes
+                //poderes: { $size: { $gte: 2 } } ,
+                $expr: { $gte: [{ $size: "$poderes" }, 2] } // Al menos 2 poderes
             }
         );
     }
@@ -131,7 +131,7 @@ class SuperHeroRepository extends IRepository{
 
         //const query = await SuperHero.find(name);
         const result = await SuperHero.findOneAndDelete({ nombreSuperHeroe: name });
-        
+
         if(!result){
             return res.status(404).send({ mensaje: 'Superhéroe no encontrado' });
         }

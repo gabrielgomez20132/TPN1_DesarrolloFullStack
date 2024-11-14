@@ -2,8 +2,6 @@ import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes,
     buscarSuperHeroesPorAtributo, obtenerSuperHeroesMayoresDe30, insertarSuperHeroes, actualizarSuperHeroes, deleteSuperHeroes , deleteByNameSuperHeroes } from '../services/SuperHeroService.mjs';
 import { renderizarSuperHeroe, renderizarListaSuperheroes } from '../views/responseView.mjs';
 
-import mongoose from 'mongoose';
-import SuperHero from "../models/SuperHero.mjs";
 
 export async function obtenerSuperHeroePorIdController(req, res){
     const { id } = req.params;
