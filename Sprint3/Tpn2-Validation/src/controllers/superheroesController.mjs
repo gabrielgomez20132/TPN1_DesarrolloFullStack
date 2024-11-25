@@ -2,6 +2,8 @@ import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes,
     buscarSuperHeroesPorAtributo, obtenerSuperHeroesMayoresDe30, insertarSuperHeroes, actualizarSuperHeroes, deleteSuperHeroes , deleteByNameSuperHeroes } from '../services/SuperHeroService.mjs';
 import { renderizarSuperHeroe, renderizarListaSuperheroes } from '../views/responseView.mjs';
 
+import { validationResult } from 'express-validator';
+
 
 export async function obtenerSuperHeroePorIdController(req, res){
     const { id } = req.params;
@@ -44,6 +46,10 @@ export async function obtenerSuperHeroesMayoresDe30Controller(req, res){
 }
 
 export async function insertarSuperHeroesController(req, res){
+    const errores = validationResult(req);
+    if (!errores.isEmpty()) {
+        return res.status(400).json({ errores: errores.array() });
+    }
     
     try {
         const superhero = await insertarSuperHeroes(req, res);
@@ -59,6 +65,12 @@ export async function insertarSuperHeroesController(req, res){
 }
 
 export async function editarSuperHeroesController(req, res){
+    
+    const errores = validationResult(req);
+    if (!errores.isEmpty()) {
+        return res.status(400).json({ errores: errores.array() });
+    }
+
     try {
         const superheroe = await actualizarSuperHeroes(req, res);
 
