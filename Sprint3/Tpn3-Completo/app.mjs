@@ -7,7 +7,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';  // Importar esta función de Node.js para convertir URL a path
 import methodOverride from 'method-override';
-import { obtenerTodosLosSuperHeroesController } from './src/controllers/superHeroesController.mjs';
+import { obtenerTodosLosSuperHeroesController } from './src/controllers/superheroesController.mjs';
 dotenv.config(); // Cargar variables de entorno
 
 const app = express();
@@ -22,6 +22,7 @@ app.set('views', path.join(__dirname, 'src', 'views'));
 
 // Configurar la carpeta estática
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Middleware para sobrescribir el método HTTP
 app.use(methodOverride('_method'));  // Este middleware se encarga de sobrescribir el método HTTP con _method

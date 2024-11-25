@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const superheroeSchema = new mongoose.Schema({
 
-    id: { type: Number, required: false },
+    //id: { type: Number, required: false },
     nombreSuperHeroe: { type: String, required: true },
     nombreReal: { type: String, required: true },
     edad: { type: Number, min: 0 },

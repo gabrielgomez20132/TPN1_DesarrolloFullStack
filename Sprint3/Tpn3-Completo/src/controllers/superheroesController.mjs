@@ -2,6 +2,7 @@ import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes,
     buscarSuperHeroesPorAtributo, obtenerSuperHeroesMayoresDe30, insertarSuperHeroes, actualizarSuperHeroes, deleteSuperHeroes , deleteByNameSuperHeroes } from '../services/SuperHeroService.mjs';
 import { renderizarSuperHeroe, renderizarListaSuperheroes } from '../views/responseView.mjs';
 import { validationResult } from 'express-validator';
+import SuperHero from '../models/SuperHero.mjs';
 
 
 export async function obtenerSuperHeroePorIdController(req, res){
@@ -12,7 +13,7 @@ export async function obtenerSuperHeroePorIdController(req, res){
         res.send(renderizarSuperHeroe(superheroe));
     }
     else{
-        res.status(404).send({mensaje: "Superheroe no encontrado"});
+        res.status(404).send({mensaje: "Superheroe no encontradost"});
     }
 }
 
@@ -32,6 +33,37 @@ export async function obtenerTodosLosSuperHeroesController(req, res){
 export const mostrarFormularioAgregar = (req, res) => {
     res.render('addSuperhero');  // Renderiza el archivo addSuperhero.ejs
 };
+
+// Controlador para manejar la creación del superhéroe
+export const agregarSuperHeroe = async (req, res) => {
+    console.log(req.body)
+    try {
+        const { nombreSuperHeroe, nombreReal, edad, planetaOrigen, debilidad, poderes, aliados, enemigos } = req.body;
+
+        // Crear un nuevo documento en la base de datos
+        const nuevoHeroe = new SuperHero({
+            nombreSuperHeroe,
+            nombreReal,
+            edad,
+            planetaOrigen,
+            debilidad,
+            poderes: poderes ? poderes.split(',').map(p => p.trim()) : [], // Convierte la lista en un array
+            aliados: aliados ? aliados.split(',').map(a => a.trim()) : [],
+            enemigos: enemigos ? enemigos.split(',').map(e => e.trim()) : [],
+        });
+
+        // Guardar el nuevo superhéroe en la base de datos
+        await nuevoHeroe.save(); 
+
+        // Redirige al dashboard después de agregar
+        res.redirect('/dashboard');
+    } catch (error) {
+        console.error('Error al agregar el superhéroe:', error);
+        res.status(500).send('Error interno del servidor');
+    }
+};
+
+
 
 
 export async function buscarSuperheroesPorAtributoController(req, res){
