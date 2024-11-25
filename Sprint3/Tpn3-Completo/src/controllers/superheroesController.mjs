@@ -1,7 +1,6 @@
 import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes, 
     buscarSuperHeroesPorAtributo, obtenerSuperHeroesMayoresDe30, insertarSuperHeroes, actualizarSuperHeroes, deleteSuperHeroes , deleteByNameSuperHeroes } from '../services/SuperHeroService.mjs';
 import { renderizarSuperHeroe, renderizarListaSuperheroes } from '../views/responseView.mjs';
-
 import { validationResult } from 'express-validator';
 
 
@@ -18,13 +17,22 @@ export async function obtenerSuperHeroePorIdController(req, res){
 }
 
 export async function obtenerTodosLosSuperHeroesController(req, res){
-    const superheroes = await obtenerTodosLosSuperHeroes();
-
-     // Renderiza y formatea la lista de superhéroes
-    const listaRenderizada = renderizarListaSuperheroes(superheroes);
-    // Envía la respuesta como JSON
-    res.json(listaRenderizada);
+    try {
+        // Llamada a la función de servicio
+        const superheroes = await obtenerTodosLosSuperHeroes();
+       //console.log(superheroes);
+        res.render('dashboard', { superheroes: superheroes });
+    } catch (error) {
+        console.error('Error al obtener los superhéroes:', error);
+        res.status(500).send('Error al obtener los superhéroes');
+    }
 }
+
+// Mostrar el formulario para agregar un superhéroe
+export const mostrarFormularioAgregar = (req, res) => {
+    res.render('addSuperhero');  // Renderiza el archivo addSuperhero.ejs
+};
+
 
 export async function buscarSuperheroesPorAtributoController(req, res){
     const {atributo, valor} = req.params;

@@ -4,8 +4,7 @@ export async function connectDB() {
 
     try {
         const url = 'mongodb+srv://Grupo-07:grupo07@cursadanodejs.ls9ii.mongodb.net/Node-js';
-            await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true 
-        });
+            await mongoose.connect(url);
 
         console.log('Conexión exitosa MongoDB');
 
