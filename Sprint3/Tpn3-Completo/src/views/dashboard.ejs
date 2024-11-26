@@ -4,61 +4,53 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard de Superhéroes</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Asegúrate de que el CSS esté en 'public/styles.css' -->
   </head>
-  <body>
-    <header>
-      <h1>Dashboard de Superhéroes</h1>
+  <body class="bg-gray-100 text-gray-900">
+    <header class="bg-blue-500 text-white py-4">
+      <h1 class="text-center text-3xl font-bold">Dashboard de Superhéroes</h1>
     </header>
+  
+    <main class="container mx-auto mt-6">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-semibold">Lista de Superhéroes</h2>
+        <a href="/heroes/agregar" 
+           class="flex items-center px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+            <span class="text-lg mr-2">+</span> Agregar
+        </a>
+      </div>
 
-    <main>
-      <h2>Lista de Superhéroes</h2>
-      <table>
-        <thead>
+      <table class="w-full border-collapse border border-gray-200 bg-white shadow-lg">
+        <thead class="bg-gray-200">
           <tr>
-            <th>Nombre</th>
-            <th>Nombre Real</th>
-            <th>Edad</th>
-            <th>Planeta Origen</th>
-            <th>Acciones</th>
+            <th class="border border-gray-300 px-4 py-2 text-left">Nombre</th>
+            <th class="border border-gray-300 px-4 py-2 text-left">Nombre Real</th>
+            <th class="border border-gray-300 px-4 py-2 text-left">Edad</th>
+            <th class="border border-gray-300 px-4 py-2 text-left">Planeta Origen</th>
+            <th class="border border-gray-300 px-4 py-2 text-left">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <% superheroes.forEach(function(superheroe) { %>
-          <tr>
-            <td><%= superheroe.nombreSuperHeroe %></td>
-            <td><%= superheroe.nombreReal %></td>
-            <td><%= superheroe.edad %></td>
-            <td><%= superheroe.planetaOrigen %></td>
-            <td>
-              <!-- Botón de editar -->
-              <a
-                href="/heroes/<%= superheroe._id %>/editar"
-                style="text-decoration: none; color: blue"
-                >Editar</a
-              >
-              <!-- Botón de eliminar -->
-              <form
-                action="/heroes/<%= superheroe._id %>"
-                method="POST"
-                style="display: inline"
-              >
-                <input type="hidden" name="_method" value="DELETE" />
-                <!-- Método DELETE -->
-                <button
-                  type="submit"
-                  style="
-                    background-color: red;
-                    color: white;
-                    border: none;
-                    padding: 5px 10px;
-                    cursor: pointer;
-                  "
-                >
+          <tr class="hover:bg-gray-100">
+            <td class="border border-gray-300 px-4 py-2"><%= superheroe.nombreSuperHeroe %></td>
+            <td class="border border-gray-300 px-4 py-2"><%= superheroe.nombreReal %></td>
+            <td class="border border-gray-300 px-4 py-2"><%= superheroe.edad %></td>
+            <td class="border border-gray-300 px-4 py-2"><%= superheroe.planetaOrigen %></td>
+            <td class="border border-gray-300 px-4 py-2 flex gap-2">
+              <a href="/heroes/<%= superheroe._id %>/editar" 
+                class="px-3 py-1 bg-blue-500 text-white text-sm rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                 Editar
+              </a>
+              
+              <form action="/heroes/<%= superheroe.id %>?_method=DELETE" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este superhéroe?');">
+                <button type="submit" class="border border-black bg-red-500 text-black font-bold py-1 px-2 rounded hover:bg-red-700">
                   Eliminar
                 </button>
               </form>
+               
+           
             </td>
           </tr>
           <% }); %>
@@ -67,3 +59,10 @@
     </main>
   </body>
 </html>
+
+<script>
+  // Función para confirmar antes de eliminar
+  function confirmarEliminacion() {
+    return confirm('¿Estás seguro de que deseas eliminar este superhéroe? Esta acción no se puede deshacer.');
+  }
+</script>

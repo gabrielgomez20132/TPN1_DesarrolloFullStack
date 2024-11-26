@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { obtenerSuperHeroePorIdController,obtenerTodosLosSuperHeroesController ,obtenerSuperHeroesMayoresDe30Controller, buscarSuperheroesPorAtributoController ,
-         insertarSuperHeroesController, editarSuperHeroesController , eliminarSuperHeroesController, eliminarByNameSuperHeroesController, mostrarFormularioAgregar, agregarSuperHeroe } from '../controllers/superheroesController.mjs';
+         insertarSuperHeroesController, editarSuperHeroesController , eliminarSuperHeroesController, eliminarByNameSuperHeroesController, mostrarFormularioAgregar, agregarSuperHeroe,  mostrarFormularioEditar, actualizarSuperHeroe, eliminarSuperHeroesControllerMvc} from '../controllers/superheroesController.mjs';
 
 import { validarSuperheroe } from '../validators/superheroeValidator.mjs'; // Importar el validador
 
@@ -20,6 +20,7 @@ router.delete('/heroes/delete/:id', eliminarSuperHeroesController);
 router.delete('/heroes/deleteByName/:name', eliminarByNameSuperHeroesController);
 
 //rutas para el practico 3 con vista html
+
 // Ruta para mostrar el formulario de agregar superhéroe
 router.get('/heroes/agregar', mostrarFormularioAgregar);
 // Ruta para manejar la creación del superhéroe
@@ -27,9 +28,12 @@ router.post('/heroes', agregarSuperHeroe);
 
 
 // Ruta para mostrar el formulario de edición
-router.get('/:id/editar', mostrarFormularioEditar);
+router.get('/heroes/:id/editar', mostrarFormularioEditar);
 // Ruta para actualizar el superhéroe
-router.post('/:id/editar', actualizarSuperHeroe);
+router.post('/heroes/:id/editar', actualizarSuperHeroe);
+
+router.delete('/heroes/:id', eliminarSuperHeroesControllerMvc);
+
 
 
 export default router;

@@ -16,6 +16,9 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);  // Convertir URL a path
 const __dirname = path.dirname(__filename);  // Obtener el directorio base
 
+// Middleware para sobrescribir el método HTTP
+app.use(methodOverride('_method'));  // Este middleware se encarga de sobrescribir el método HTTP con _method
+
 // Configurar EJS como motor de plantillas
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src', 'views'));
@@ -23,9 +26,6 @@ app.set('views', path.join(__dirname, 'src', 'views'));
 // Configurar la carpeta estática
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-// Middleware para sobrescribir el método HTTP
-app.use(methodOverride('_method'));  // Este middleware se encarga de sobrescribir el método HTTP con _method
 
 // Middleware para procesar solicitudes JSON
 app.use(express.json());

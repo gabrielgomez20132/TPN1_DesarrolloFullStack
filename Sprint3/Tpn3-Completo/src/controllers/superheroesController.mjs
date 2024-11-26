@@ -65,6 +65,56 @@ export const agregarSuperHeroe = async (req, res) => {
 
 
 
+export const mostrarFormularioEditar = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const superheroe = await SuperHero.findById(id);
+
+        if (!superheroe) {
+            return res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+        }
+
+        // Renderiza el formulario y pasa los datos del superhéroe
+        res.render('editSuperhero', { superheroe });
+    } catch (error) {
+        console.error('Error al buscar el superhéroe:', error);
+        res.status(500).send('Error interno del servidor');
+    }
+};
+
+export const actualizarSuperHeroe = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nombreSuperHeroe, nombreReal, edad, planetaOrigen, debilidad, poderes, aliados, enemigos } = req.body;
+
+        // Actualiza el superhéroe en la base de datos
+        const superheroeActualizado = await SuperHero.findByIdAndUpdate(
+            id,
+            {
+                nombreSuperHeroe,
+                nombreReal,
+                edad,
+                planetaOrigen,
+                debilidad,
+                poderes: poderes ? poderes.split(',').map(p => p.trim()) : [],
+                aliados: aliados ? aliados.split(',').map(a => a.trim()) : [],
+                enemigos: enemigos ? enemigos.split(',').map(e => e.trim()) : [],
+            },
+            { new: true } // Devuelve el documento actualizado
+        );
+
+        if (!superheroeActualizado) {
+            return res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+        }
+
+        // Redirige al dashboard o a otra página después de actualizar
+        res.redirect('/dashboard');
+    } catch (error) {
+        console.error('Error al actualizar el superhéroe:', error);
+        res.status(500).send('Error interno del servidor');
+    }
+};
+
 
 export async function buscarSuperheroesPorAtributoController(req, res){
     const {atributo, valor} = req.params;
@@ -161,5 +211,49 @@ export async function eliminarByNameSuperHeroesController(req, res){
     } catch (error) {
         console.error("Error en el controlador:", error.message);
         res.status(500).send({ error: 'Error al eliminar el superhéroe por su Nombre' });
+    }
+}
+
+
+
+// Nuevo método de eliminación por ID
+export async function eliminarSuperHeroePorId(id) {
+    try {
+        // Aquí se podría usar cualquier otra lógica de eliminación, como validaciones o relaciones
+        const superheroe = await SuperHeroe.findById(id);  // Buscar el superhéroe por ID
+        if (!superheroe) {
+            throw new Error('Superhéroe no encontrado');
+        }
+
+        // Eliminar el superhéroe
+        await superheroe.remove();  // Usamos el método de eliminación
+        return superheroe;  // Retornamos el superhéroe eliminado para usarlo en el controlador si es necesario
+    } catch (error) {
+        throw new Error('Error al eliminar el superhéroe: ' + error.message);
+    }
+}
+//eliminar mvc
+export async function eliminarSuperHeroesControllerMvc(req, res) {
+
+    const { id } = req.params;  // Accede al ID desde la URL
+    console.log(`Eliminando superhéroe con ID: ${id}`);
+
+    try {
+        // busca y elimina con el modelo SuperHero
+        const superheroe = await SuperHero.findByIdAndDelete(id);
+        
+        if (!superheroe) {
+            // Si no se encuentra el superhéroe, lanzamos un error
+            throw new Error('Superhéroe no encontrado');
+        }
+
+
+        // Redirigir al dashboard después de eliminar
+        res.redirect('/dashboard');  // Redirige al dashboard después de la eliminación
+
+    } catch (error) {
+        console.error("Error al eliminar el superhéroe:", error.message);
+        // Si hay un error, enviar un mensaje de error adecuado
+        res.status(500).send({ error: 'Error al eliminar el superhéroe' });
     }
 }

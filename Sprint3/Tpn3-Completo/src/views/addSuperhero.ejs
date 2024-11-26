@@ -4,51 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Superhéroe</title>
-    <link rel="stylesheet" href="/form.css">  
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <header>
-        <h1>Formulario para Agregar Superhéroe</h1>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Encabezado -->
+    <header class="bg-blue-500 text-white py-4">
+        <h1 class="text-center text-2xl font-bold">Formulario para Agregar Superhéroe</h1>
     </header>
+
     <!-- Menú de navegación -->
-<nav id="menu" style="padding: 20px; display: flex; justify-content: space-around; background-color: #f8f8f8; border-bottom: 2px solid #ddd;">
-    <ul style="display: flex; list-style-type: none; margin: 0; padding: 0;">
-        <li style="margin-right: 20px;"><a href="/dashboard" style="text-decoration: none; color: #333;">Dashboard</a></li>
-        <li style="margin-right: 20px;"><a href="/heroes/agregar" style="text-decoration: none; color: #333;">Agregar</a></li>
-    </ul>
-</nav>
+   
 
+    <!-- Contenido principal -->
+    <main class="max-w-4xl mx-auto bg-white p-8 mt-6 rounded-lg shadow-lg">
+        <form action="/heroes" method="POST" class="space-y-6">
+            <!-- Nombre del Superhéroe -->
+            <div>
+                <label for="nombreSuperHeroe" class="block text-sm font-medium text-gray-700">Nombre del Superhéroe</label>
+                <input type="text" id="nombreSuperHeroe" name="nombreSuperHeroe" 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+            </div>
 
-    <main>
-        <form action="/heroes" method="POST">
-            <label for="nombreSuperHeroe">Nombre del Superhéroe:</label>
-            <input type="text" id="nombreSuperHeroe" name="nombreSuperHeroe" required> <br>
-        
-            <label for="nombreReal">Nombre Real:</label>
-            <input type="text" id="nombreReal" name="nombreReal" required><br>
-        
-            <label for="edad">Edad:</label>
-            <input type="number" id="edad" name="edad" required><br>
-        
-            <label for="planetaOrigen">Planeta de Origen:</label>
-            <input type="text" id="planetaOrigen" name="planetaOrigen"><br>
-        
-            <label for="debilidad">Debilidad:</label>
-            <input type="text" id="debilidad" name="debilidad"><br>
-        
-            <label for="poderes">Poderes:</label>
-            <input type="text" id="poderes" name="poderes"><br>
-        
-            <label for="aliados">Aliados:</label>
-            <input type="text" id="aliados" name="aliados"><br>
-        
-            <label for="enemigos">Enemigos:</label>
-            <input type="text" id="enemigos" name="enemigos"><br>
-        
-            <button type="submit">Agregar Superhéroe</button>
+            <!-- Nombre Real -->
+            <div>
+                <label for="nombreReal" class="block text-sm font-medium text-gray-700">Nombre Real</label>
+                <input type="text" id="nombreReal" name="nombreReal" 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+            </div>
+
+            <!-- Edad -->
+            <div>
+                <label for="edad" class="block text-sm font-medium text-gray-700">Edad</label>
+                <input type="number" id="edad" name="edad" 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+            </div>
+
+            <!-- Planeta de Origen -->
+            <div>
+                <label for="planetaOrigen" class="block text-sm font-medium text-gray-700">Planeta de Origen</label>
+                <input type="text" id="planetaOrigen" name="planetaOrigen" 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <!-- Debilidad -->
+            <div>
+                <label for="debilidad" class="block text-sm font-medium text-gray-700">Debilidad</label>
+                <input type="text" id="debilidad" name="debilidad" 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <!-- Poderes -->
+            <div>
+                <label for="poderes" class="block text-sm font-medium text-gray-700">Poderes</label>
+                <input type="text" id="poderes" name="poderes" 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <!-- Aliados -->
+            <div>
+                <label for="aliados" class="block text-sm font-medium text-gray-700">Aliados</label>
+                <input type="text" id="aliados" name="aliados" 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <!-- Enemigos -->
+            <div>
+                <label for="enemigos" class="block text-sm font-medium text-gray-700">Enemigos</label>
+                <input type="text" id="enemigos" name="enemigos" 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <!-- Botón -->
+            <div class="flex justify-end space-x-4">
+                <!-- Botón Volver -->
+                <a href="/dashboard" 
+                   class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    Volver
+                </a>
+            
+                <!-- Botón Guardar -->
+                <button type="submit" 
+                        class="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    Guardar cambios
+                </button>
+            </div>
         </form>
-        
-        
     </main>
 </body>
 </html>
