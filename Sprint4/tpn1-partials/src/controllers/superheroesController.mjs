@@ -56,7 +56,7 @@ export const agregarSuperHeroe = async (req, res) => {
         await nuevoHeroe.save(); 
 
         // Redirige al dashboard después de agregar
-        res.redirect('/dashboard');
+        res.redirect('/heroes');
     } catch (error) {
         console.error('Error al agregar el superhéroe:', error);
         res.status(500).send('Error interno del servidor');
@@ -108,7 +108,7 @@ export const actualizarSuperHeroe = async (req, res) => {
         }
 
         // Redirige al dashboard o a otra página después de actualizar
-        res.redirect('/dashboard');
+        res.redirect('/heroes');
     } catch (error) {
         console.error('Error al actualizar el superhéroe:', error);
         res.status(500).send('Error interno del servidor');
@@ -249,7 +249,7 @@ export async function eliminarSuperHeroesControllerMvc(req, res) {
 
 
         // Redirigir al dashboard después de eliminar
-        res.redirect('/dashboard');  // Redirige al dashboard después de la eliminación
+        res.redirect('/heroes');  // Redirige al dashboard después de la eliminación
 
     } catch (error) {
         console.error("Error al eliminar el superhéroe:", error.message);

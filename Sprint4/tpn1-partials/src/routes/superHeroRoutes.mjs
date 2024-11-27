@@ -31,8 +31,12 @@ router.post('/heroes', agregarSuperHeroe);
 router.get('/heroes/:id/editar', mostrarFormularioEditar);
 // Ruta para actualizar el superhéroe
 router.post('/heroes/:id/editar', actualizarSuperHeroe);
-
 router.delete('/heroes/:id', eliminarSuperHeroesControllerMvc);
+
+
+// Ruta para el Dashboard donde se muestran todos los superhéroes
+router.get('/heroes', obtenerTodosLosSuperHeroesController);  // Mostrar todos los superhéroes
+
 
 
 

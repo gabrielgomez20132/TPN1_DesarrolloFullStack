@@ -1,60 +1,58 @@
-
 import express from 'express';
 import { connectDB } from './src/config/dbConfig.mjs';
 import router from './src/routes/superHeroRoutes.mjs';
-
 import path from 'path';
 import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';  // Importar esta función de Node.js para convertir URL a path
+import { fileURLToPath } from 'url';  
 import methodOverride from 'method-override';
-import { obtenerTodosLosSuperHeroesController } from './src/controllers/superheroesController.mjs';
+import expressEjsLayouts from 'express-ejs-layouts';
+
 dotenv.config(); // Cargar variables de entorno
 
 const app = express();
 
 // Obtener la ruta base donde estarán las vistas
-const __filename = fileURLToPath(import.meta.url);  // Convertir URL a path
-const __dirname = path.dirname(__filename);  // Obtener el directorio base
+const __filename = fileURLToPath(import.meta.url);  
+const __dirname = path.dirname(__filename);  
 
 // Middleware para sobrescribir el método HTTP
-app.use(methodOverride('_method'));  // Este middleware se encarga de sobrescribir el método HTTP con _method
+app.use(methodOverride('_method')); 
 
 // Configurar EJS como motor de plantillas
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src', 'views'));
 
-// Configurar la carpeta estática
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-// Middleware para procesar solicitudes JSON
+// Middleware para procesar solicitudes JSON y formularios
 app.use(express.json());
-
-// Middleware para procesar formularios (muy importante para los datos enviados desde addSuperhero.ejs)
 app.use(express.urlencoded({ extended: true }));
-
-// Middleware para registrar las solicitudes
-app.use((req, res, next) => {
-    console.log(`Solicitud: ${req.method} ${req.url}`);
-    next();
-});
 
 // Conectar a la base de datos y manejar errores de conexión
 connectDB().catch(err => {
     console.error('Error al conectar a la base de datos:', err);
-    process.exit(1);  // Detiene el servidor si hay un error con la base de datos
+    process.exit(1);  
 });
 
-// Rutas de superhéroes (debe estar aquí, después de las configuraciones)
-app.use(router);  // Aquí activamos las rutas de superhéroes
+// Rutas de superhéroes
+app.use(router);
 
-// Ruta para mostrar el dashboard con la lista de superhéroes
-app.get('/dashboard', obtenerTodosLosSuperHeroesController);  // Usamos esta ruta para mostrar todos los superhéroes
+// Configurar express-ejs-layouts
+app.use(expressEjsLayouts);
+app.set('layout', 'layout'); // Indicar el layout que se va a usar
 
-// Ruta para manejar errores 404 (en caso de que la ruta no exista)
-/* app.use((req, res) => {
-    res.status(404).render('404', { mensaje: "Ruta no encontrada" }); 
-}); */
+// Configurar la carpeta estática
+app.use(express.static(path.join(__dirname, './public')));
+
+// Ruta principal
+app.get('/', (req, res) => {
+    res.render('index', {
+        title: 'Mi Aplicación',
+        navbarLinks: [
+            { text: 'Inicio', href: '/', icon: '/icons/home.svg' },
+            { text: 'Acerca de', href: '/about', icon: '/icons/info.svg' },
+            { text: 'Contacto', href: '/contact', icon: '/icons/contact.svg' }
+        ]
+    });
+});
 
 // Configuración del puerto
 const PORT = process.env.PORT || 3000;
