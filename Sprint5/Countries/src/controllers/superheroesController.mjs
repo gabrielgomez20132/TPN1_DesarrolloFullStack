@@ -1,6 +1,6 @@
 import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes, 
     buscarSuperHeroesPorAtributo, obtenerSuperHeroesMayoresDe30, insertarSuperHeroes, actualizarSuperHeroes, deleteSuperHeroes , deleteByNameSuperHeroes,
-    obtenerTodosPaises } from '../services/SuperHeroService.mjs';
+    obtenerTodosPaises, insertPaises } from '../services/SuperHeroService.mjs';
 import { renderizarSuperHeroe, renderizarListaSuperheroes } from '../views/responseView.mjs';
 import { validationResult } from 'express-validator';
 import SuperHero from '../models/SuperHero.mjs';
@@ -268,10 +268,29 @@ export async function obtenerCountriesController(req, res){
     try {
         // Llamada a la función de servicio
         const paises = await obtenerTodosPaises();
-        //console.log(paises);
+       
+        //res.json(paises);
         res.render('dashboard', { paises: paises });
     } catch (error) {
         console.error('Error al obtener los paises:', error);
         res.status(500).send('Error al obtener los paises');
     }
 }
+
+
+export const insertarPaisController = async (req, res) => {
+    try {
+      // Extraemos los datos del cuerpo de la solicitud
+      const paisData = req.body;
+  
+      // Llamamos al servicio para insertar el país
+      const paisCreado = await insertPaises(paisData);
+  
+      // Respondemos con el país creado
+      //res.status(201).json({ message: 'País agregado exitosamente', pais: paisCreado });
+      res.status(201).redirect('/countries');
+    } catch (error) {
+      console.error('Error al insertar el país:', error);
+      res.status(500).send('Error al insertar el país');
+    }
+  };

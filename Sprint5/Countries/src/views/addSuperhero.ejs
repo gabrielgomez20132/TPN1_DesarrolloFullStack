@@ -1,95 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Superhéroe</title>
+    <title>Agregar un Nuevo País</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
 
-    <!-- Encabezado -->
-    <header class="bg-blue-500 text-white py-4">
-        <h1 class="text-center text-2xl font-bold">Formulario para Agregar Superhéroe</h1>
-    </header>
+<body class="bg-gray-100 font-sans">
 
-    <!-- Menú de navegación -->
-   
+    <div class="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Agregar un Nuevo País</h1>
 
-    <!-- Contenido principal -->
-    <main class="max-w-4xl mx-auto bg-white p-8 mt-6 rounded-lg shadow-lg">
-        <form action="/heroes" method="POST" class="space-y-6">
-            <!-- Nombre del Superhéroe -->
-            <div>
-                <label for="nombreSuperHeroe" class="block text-sm font-medium text-gray-700">Nombre del Superhéroe</label>
-                <input type="text" id="nombreSuperHeroe" name="nombreSuperHeroe" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+        <form action="/countries" method="POST">
+
+            <!-- Campo de nombre común -->
+            <div class="mb-4">
+                <label for="name.common" class="block text-lg font-semibold text-gray-700">Nombre Común:</label>
+                <input type="text" id="name.common" name="name.common" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
             </div>
 
-            <!-- Nombre Real -->
-            <div>
-                <label for="nombreReal" class="block text-sm font-medium text-gray-700">Nombre Real</label>
-                <input type="text" id="nombreReal" name="nombreReal" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+            <!-- Campo de nombre oficial -->
+            <div class="mb-4">
+                <label for="name.official" class="block text-lg font-semibold text-gray-700">Nombre Oficial:</label>
+                <input type="text" id="name.official" name="name.official" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
             </div>
 
-            <!-- Edad -->
-            <div>
-                <label for="edad" class="block text-sm font-medium text-gray-700">Edad</label>
-                <input type="number" id="edad" name="edad" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+            <!-- Campo de nombre nativo (Object) -->
+            <div class="mb-4">
+                <label for="name.nativeName" class="block text-lg font-semibold text-gray-700">Nombre Nativo (en idioma local):</label>
+                <input type="text" id="name.nativeName" name="name.nativeName" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
-            <!-- Planeta de Origen -->
-            <div>
-                <label for="planetaOrigen" class="block text-sm font-medium text-gray-700">Planeta de Origen</label>
-                <input type="text" id="planetaOrigen" name="planetaOrigen" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Campo de independencia -->
+            <div class="mb-4">
+                <label for="independent" class="block text-lg font-semibold text-gray-700">Independiente:</label>
+                <input type="checkbox" id="independent" name="independent" value="true" class="h-5 w-5 text-blue-600">
             </div>
 
-            <!-- Debilidad -->
-            <div>
-                <label for="debilidad" class="block text-sm font-medium text-gray-700">Debilidad</label>
-                <input type="text" id="debilidad" name="debilidad" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Campo de estado (por ejemplo, "officially-assigned") -->
+            <div class="mb-4">
+                <label for="status" class="block text-lg font-semibold text-gray-700">Estado:</label>
+                <input type="text" id="status" name="status" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
             </div>
 
-            <!-- Poderes -->
-            <div>
-                <label for="poderes" class="block text-sm font-medium text-gray-700">Poderes</label>
-                <input type="text" id="poderes" name="poderes" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Campo de membresía en la ONU -->
+            <div class="mb-4">
+                <label for="unMember" class="block text-lg font-semibold text-gray-700">Miembro de la ONU:</label>
+                <input type="checkbox" id="unMember" name="unMember" value="true" class="h-5 w-5 text-blue-600">
             </div>
 
-            <!-- Aliados -->
-            <div>
-                <label for="aliados" class="block text-sm font-medium text-gray-700">Aliados</label>
-                <input type="text" id="aliados" name="aliados" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Campo de monedas -->
+            <div class="mb-4">
+                <label for="currencies" class="block text-lg font-semibold text-gray-700">Monedas:</label>
+                <input type="text" id="currencies" name="currencies" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
-            <!-- Enemigos -->
-            <div>
-                <label for="enemigos" class="block text-sm font-medium text-gray-700">Enemigos</label>
-                <input type="text" id="enemigos" name="enemigos" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Campo de capital -->
+            <div class="mb-4">
+                <label for="capital" class="block text-lg font-semibold text-gray-700">Capital:</label>
+                <input type="text" id="capital" name="capital" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
-            <!-- Botón -->
-            <div class="flex justify-end space-x-4">
-                <!-- Botón Volver -->
-                <a href="/" 
-                   class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                    Volver
-                </a>
-            
-                <!-- Botón Guardar -->
-                <button type="submit" 
-                        class="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                    Guardar cambios
+            <!-- Campo de región -->
+            <div class="mb-4">
+                <label for="region" class="block text-lg font-semibold text-gray-700">Región:</label>
+                <input type="text" id="region" name="region" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+            </div>
+
+            <!-- Campo de subregión -->
+            <div class="mb-4">
+                <label for="subregion" class="block text-lg font-semibold text-gray-700">Subregión:</label>
+                <input type="text" id="subregion" name="subregion" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <!-- Campo de idiomas -->
+            <div class="mb-4">
+                <label for="languages" class="block text-lg font-semibold text-gray-700">Idiomas (como objeto JSON):</label>
+                <input type="text" id="languages" name="languages" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: {"spa": "Spanish"}' required>
+            </div>
+
+            <!-- Campo de latitud y longitud -->
+            <div class="mb-4">
+                <label for="latlng" class="block text-lg font-semibold text-gray-700">Latitud y Longitud:</label>
+                <input type="text" id="latlng" name="latlng" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: [12.34, 56.78]'>
+            </div>
+
+            <!-- Campo de país sin salida al mar -->
+            <div class="mb-4">
+                <label for="landlocked" class="block text-lg font-semibold text-gray-700">País sin salida al mar:</label>
+                <input type="checkbox" id="landlocked" name="landlocked" value="true" class="h-5 w-5 text-blue-600">
+            </div>
+
+            <!-- Campo de fronteras -->
+            <div class="mb-4">
+                <label for="borders" class="block text-lg font-semibold text-gray-700">Fronteras:</label>
+                <input type="text" id="borders" name="borders" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["FRA", "BEL"]'>
+            </div>
+
+            <!-- Campo de área -->
+            <div class="mb-4">
+                <label for="area" class="block text-lg font-semibold text-gray-700">Área (en km²):</label>
+                <input type="number" id="area" name="area" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+            </div>
+
+            <!-- Campo de bandera -->
+            <div class="mb-4">
+                <label for="flag" class="block text-lg font-semibold text-gray-700">Bandera (URL o emoji):</label>
+                <input type="text" id="flag" name="flag" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <!-- Campo de mapas -->
+            <div class="mb-4">
+                <label for="maps" class="block text-lg font-semibold text-gray-700">Mapas (URL):</label>
+                <input type="text" id="maps" name="maps" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <!-- Campo de población -->
+            <div class="mb-4">
+                <label for="population" class="block text-lg font-semibold text-gray-700">Población:</label>
+                <input type="number" id="population" name="population" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+            </div>
+
+            <!-- Campo de GINI -->
+            <div class="mb-4">
+                <label for="gini" class="block text-lg font-semibold text-gray-700">Índice de Gini:</label>
+                <input type="text" id="gini" name="gini" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <!-- Campo de FIFA -->
+            <div class="mb-4">
+                <label for="fifa" class="block text-lg font-semibold text-gray-700">Código FIFA:</label>
+                <input type="text" id="fifa" name="fifa" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <!-- Campo de zonas horarias -->
+            <div class="mb-4">
+                <label for="timezones" class="block text-lg font-semibold text-gray-700">Zonas Horarias:</label>
+                <input type="text" id="timezones" name="timezones" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["GMT", "UTC+1"]'>
+            </div>
+
+            <!-- Campo de continentes -->
+            <div class="mb-4">
+                <label for="continents" class="block text-lg font-semibold text-gray-700">Continentes:</label>
+                <input type="text" id="continents" name="continents" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["Asia", "Europe"]'>
+            </div>
+
+            <!-- Campo de inicio de la semana -->
+            <div class="mb-4">
+                <label for="startOfWeek" class="block text-lg font-semibold text-gray-700">Día de inicio de la semana:</label>
+                <input type="text" id="startOfWeek" name="startOfWeek" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <!-- Campo de información de la capital -->
+            <div class="mb-4">
+                <label for="capitalInfo" class="block text-lg font-semibold text-gray-700">Información sobre la capital:</label>
+                <input type="text" id="capitalInfo" name="capitalInfo" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <!-- Campo de creador -->
+            <div class="mb-4">
+                <label for="creador" class="block text-lg font-semibold text-gray-700">Creador:</label>
+                <input type="text" id="creador" name="creador" value="Gabriel" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" readonly>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    Agregar País
                 </button>
             </div>
+
         </form>
-    </main>
+    </div>
+
 </body>
+
 </html>

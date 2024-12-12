@@ -8,10 +8,6 @@ export async function obtenerTodosLosSuperHeroes() {
     return await SuperHeroRepository.obtenerTodos();
 }
 
-export async function obtenerTodosPaises() {
-    return await SuperHeroRepository.obtenerTodosLosPaises();
-}
-
 export async function buscarSuperHeroesPorAtributo(atributo, valor){
     return await SuperHeroRepository.buscarPorAtributo(atributo, valor);
 }
@@ -52,4 +48,14 @@ export async function deleteByNameSuperHeroes(name){
         throw new Error("Error en el services al eliminar el superhéroe por su Nombre: " + error.message);
     }
 
+}
+
+
+/////////////////////////////////////////////paises/////////
+export async function obtenerTodosPaises() {
+    return await SuperHeroRepository.obtenerTodosLosPaises();
+}
+
+export async function insertPaises(paisData){
+    return await SuperHeroRepository.insertPais(paisData);
 }

@@ -23,29 +23,6 @@ class SuperHeroRepository extends IRepository{
         return await SuperHero.find({});
     }
 
-    async obtenerTodosLosPaises(){
-        try {
-            // Realizamos la solicitud GET asincrónica
-            const respuesta = await axios.get('https://restcountries.com/v3.1/all');
-            
-            // Si deseas mostrar toda la información de los países
-            //console.log(respuesta.data);
-            
-            // Si solo te interesan los nombres comunes de los países
-            //const nombresPaises = respuesta.data.map(pais => pais.name.common);
-            //console.log(nombresPaises);
-            const paises = respuesta.data.filter(pais => 
-                pais.languages && pais.languages.spa === 'Spanish'
-              );
-              
-              // Devolver los países que tienen español como idioma
-            return paises;
-        
-          } catch (error) {
-            // Manejo de errores
-            console.error('Error al obtener los países:', error);
-          }
-    }
     async buscarPorAtributo(atributo, valor){
         const query = { [atributo]: new RegExp(valor, 'i') } ;
         
@@ -62,6 +39,7 @@ class SuperHeroRepository extends IRepository{
             }
         );
     }
+    
 
     async insertSuperHero(req, res){
 
@@ -163,6 +141,60 @@ class SuperHeroRepository extends IRepository{
         return result;
 
     }
+    //////////////////////////////////////////////////////////paises/////////////////////////////////////////////
+
+    async obtenerTodosLosPaises(){
+        try {
+            // Realizamos la solicitud GET asincrónica
+            //const respuesta = await axios.get('https://restcountries.com/v3.1/all');
+            const paises = await SuperHero.find({ creador: 'Gabriel' });
+           
+           // Filtrar los países que tienen el idioma español
+            const paisesConIdiomaEspañol = paises.filter(pais => pais.languages && pais.languages.spa === 'Spanish');
+           // console.log(paisesConIdiomaEspañol)
+
+            // Eliminar los campos no deseados (por ejemplo, 'translations', 'tld', etc.)
+            const paisesFiltrados = paisesConIdiomaEspañol.map(pais => {
+            const { translations, tld, cca2, ccn3, cca3, cioc, idd, altSpellings, car, coatOfArms, postalCode, demonyms, ...paisFiltrado } = pais._doc;
+            return paisFiltrado;
+            });
+
+            // Retornar los países filtrados
+            return paises;
+        
+          } catch (error) {
+            // Manejo de errores
+            console.error('Error al obtener los países:', error);
+          }
+    }
+
+    async insertPais(paisData){
+        // Asegúrate de que 'languages' esté estructurado correctamente
+        
+        try{
+            if (!paisData.languages) {
+                paisData.languages = {};  // Si no existe, inicializamos 'languages'
+            }
+            //paisData.languages.spa = "Spanish";  // Establecer el idioma como español
+        
+            // Establecer el valor de 'creado' como 'Gabriel'
+            paisData.creado = "Gabriel";  // Aquí agregamos el valor fijo "Gabriel" al campo 'creado'
+        
+            // Crear una nueva instancia del modelo y guardarla
+            const nuevoPais = new SuperHero(paisData);
+            console.log('new Pais',nuevoPais);
+            const paisGuardado = await nuevoPais.save();  // Guardamos el país en la base de datos
+            console.log('new Pais SAVE',paisGuardado);
+            
+            // Retornar el país guardado
+            return paisGuardado;
+          
+         
+        } catch (error) {
+            console.error("Error al insertar el país:", error);
+            throw new Error("Error al insertar el país"); // O manejarlo de manera específica
+        }
+      };
 }
 
 export default new SuperHeroRepository;
