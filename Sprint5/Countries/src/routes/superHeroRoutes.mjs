@@ -39,6 +39,9 @@ router.delete('/heroes/:id', eliminarSuperHeroesControllerMvc);
 router.get('/countries', obtenerCountriesController);  // Mostrar todos los PAISES
 router.get('/countries/agregar', mostrarFormularioAgregar);
 router.post('/countries', insertarPaisController);  // Agregar un país
+router.get('/countries/:id/editar', mostrarFormularioEditar);
+router.post('/countries/:id/editar', actualizarSuperHeroe);
+router.delete('/countries/:id', eliminarSuperHeroesControllerMvc);
 
 
 

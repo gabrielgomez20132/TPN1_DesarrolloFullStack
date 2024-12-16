@@ -17,14 +17,20 @@ const superheroeSchema = new mongoose.Schema({
     languages: Object,
     latlng: [Number],
     landlocked: Boolean,
-    borders: [String],
+    borders: {
+      type: [String],  // Define el campo como un array de strings
+      required: true 
+    },
     area: Number,
     flag: String,
     maps: Object,
     population: Number,
     gini: Object,
     fifa: String,
-    timezones: [String],
+    timezones: {
+      type: [String],  // Define el campo como un array de strings
+      required: true 
+    },
     continents: [String],
     flags: Object,
     startOfWeek: String,

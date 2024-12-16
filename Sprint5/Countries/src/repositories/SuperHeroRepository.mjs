@@ -169,22 +169,37 @@ class SuperHeroRepository extends IRepository{
     }
 
     async insertPais(paisData){
-        // Asegúrate de que 'languages' esté estructurado correctamente
         
         try{
+            
+
+            
+            if (paisData.timezones && paisData.timezones.length === 1 && typeof paisData.timezones[0] === 'string') {
+                // Intentamos parsear el string para convertirlo en un array
+                paisData.timezones = JSON.parse(paisData.timezones[0]);
+            }
+            if (paisData.borders && paisData.borders.length === 1 && typeof paisData.borders[0] === 'string') {
+                // Intentamos parsear el string para convertirlo en un array
+                paisData.borders = JSON.parse(paisData.borders[0]);
+            }
+            
+
             if (!paisData.languages) {
                 paisData.languages = {};  // Si no existe, inicializamos 'languages'
             }
-            //paisData.languages.spa = "Spanish";  // Establecer el idioma como español
+    
+           
         
-            // Establecer el valor de 'creado' como 'Gabriel'
-            paisData.creado = "Gabriel";  // Aquí agregamos el valor fijo "Gabriel" al campo 'creado'
+            paisData.languages = { "spa": "Spanish" };
+
+            
+            paisData.creador = "Gabriel";  
         
             // Crear una nueva instancia del modelo y guardarla
             const nuevoPais = new SuperHero(paisData);
-            console.log('new Pais',nuevoPais);
-            const paisGuardado = await nuevoPais.save();  // Guardamos el país en la base de datos
-            console.log('new Pais SAVE',paisGuardado);
+            /* console.log('new Pais',nuevoPais); */
+            const paisGuardado = await nuevoPais.save();  
+            /* console.log('new Pais SAVE',paisGuardado); */
             
             // Retornar el país guardado
             return paisGuardado;

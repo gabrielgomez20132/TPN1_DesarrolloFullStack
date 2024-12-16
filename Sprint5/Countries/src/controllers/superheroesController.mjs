@@ -69,14 +69,14 @@ export const agregarSuperHeroe = async (req, res) => {
 export const mostrarFormularioEditar = async (req, res) => {
     try {
         const { id } = req.params;
-        const superheroe = await SuperHero.findById(id);
+        const pais = await SuperHero.findById(id);
 
-        if (!superheroe) {
+        if (!pais) {
             return res.status(404).send({ mensaje: "Superhéroe no encontrado" });
         }
 
         // Renderiza el formulario y pasa los datos del superhéroe
-        res.render('editSuperhero', { superheroe });
+        res.render('editSuperhero', { pais });
     } catch (error) {
         console.error('Error al buscar el superhéroe:', error);
         res.status(500).send('Error interno del servidor');
@@ -85,33 +85,74 @@ export const mostrarFormularioEditar = async (req, res) => {
 
 export const actualizarSuperHeroe = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { nombreSuperHeroe, nombreReal, edad, planetaOrigen, debilidad, poderes, aliados, enemigos } = req.body;
+        // Procesamos el cuerpo para asegurarnos de que los campos tengan el formato correcto
+        let { 
+            'name.official': nameOfficial,  // Extraemos el nombre oficial
+            capital, 
+            borders, 
+            area, 
+            population, 
+            timezones, 
+            languages 
+            } = req.body;
 
-        // Actualiza el superhéroe en la base de datos
-        const superheroeActualizado = await SuperHero.findByIdAndUpdate(
-            id,
+        // Convertir el 'name.official' en un objeto adecuado
+        const name = { official: nameOfficial };
+
+        // Verificar y convertir 'borders' a un array
+        if (borders && borders.length === 1 && typeof borders[0] === 'string') {
+            // Limpiar el valor antes de parsearlo
+            const cleanedBorders = borders[0].replace(/^\[|\]$/g, '').split(',').map(b => b.trim().replace(/"/g, ''));
+            
+            // Convertir la cadena en un arreglo
+            borders = cleanedBorders;
+        }
+
+        // Verificar y convertir 'timezones' a un array
+        if (timezones && timezones.length === 1 && typeof timezones[0] === 'string') {
+            // Limpiar la cadena antes de convertirla en un array
+            const cleanedTimezones = timezones[0].replace(/^\[|\]$/g, '').split(',').map(t => t.trim().replace(/"/g, ''));
+
+            // Ahora 'timezones' es un array de cadenas
+            timezones = cleanedTimezones;
+        }
+
+        // Si no existe, inicializamos 'languages'
+        if (!languages) {
+            languages = {};  
+        }
+
+        // Asegúrate de que el campo 'languages' tiene al menos el idioma 'spa'
+        if (!languages.spa) {
+            languages.spa = "Spanish";  // Si no tiene 'spa', lo agregamos
+        }
+
+        // Buscamos el país por su ID y lo actualizamos
+        const paisActualizado = await SuperHero.findByIdAndUpdate(
+            req.params.id, // Usamos el id de los parámetros
             {
-                nombreSuperHeroe,
-                nombreReal,
-                edad,
-                planetaOrigen,
-                debilidad,
-                poderes: poderes ? poderes.split(',').map(p => p.trim()) : [],
-                aliados: aliados ? aliados.split(',').map(a => a.trim()) : [],
-                enemigos: enemigos ? enemigos.split(',').map(e => e.trim()) : [],
+                name,
+                capital,
+                borders,
+                area,
+                population,
+                timezones,
+                languages,
             },
             { new: true } // Devuelve el documento actualizado
         );
 
-        if (!superheroeActualizado) {
-            return res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+        // Si el país no se encuentra, respondemos con un error
+        if (!paisActualizado) {
+            return res.status(404).send({ mensaje: "País no encontrado" });
         }
 
+        //res.json(paisActualizado);
         // Redirige al dashboard o a otra página después de actualizar
-        res.redirect('/heroes');
+        res.status(201).redirect('/countries');
+
     } catch (error) {
-        console.error('Error al actualizar el superhéroe:', error);
+        console.error("Error al actualizar el país:", error);
         res.status(500).send('Error interno del servidor');
     }
 };
@@ -237,7 +278,7 @@ export async function eliminarSuperHeroePorId(id) {
 export async function eliminarSuperHeroesControllerMvc(req, res) {
 
     const { id } = req.params;  // Accede al ID desde la URL
-    console.log(`Eliminando superhéroe con ID: ${id}`);
+    //console.log(`Eliminando superhéroe con ID: ${id}`);
 
     try {
         // busca y elimina con el modelo SuperHero
@@ -250,12 +291,12 @@ export async function eliminarSuperHeroesControllerMvc(req, res) {
 
 
         // Redirigir al dashboard después de eliminar
-        res.redirect('/heroes');  // Redirige al dashboard después de la eliminación
+        res.redirect('/countries');  // Redirige al dashboard después de la eliminación
 
     } catch (error) {
-        console.error("Error al eliminar el superhéroe:", error.message);
+        console.error("Error al eliminar el Pais:", error.message);
         // Si hay un error, enviar un mensaje de error adecuado
-        res.status(500).send({ error: 'Error al eliminar el superhéroe' });
+        res.status(500).send({ error: 'Error al eliminar el Pais' });
     }
 
 

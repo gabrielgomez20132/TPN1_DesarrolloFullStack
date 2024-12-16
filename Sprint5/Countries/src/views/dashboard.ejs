@@ -4,9 +4,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <%- include('partials/navbar') %> <!-- Incluye la barra de navegación -->
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
 
-    <main class="container mx-auto mt-6">
+    <main class="container mx-auto mt-6 flex-grow">
         <h2 class="text-xl font-semibold mb-6">Lista de Paises</h2>
 
         <table class="w-full border-collapse border border-gray-200 bg-white shadow-lg">
@@ -18,6 +18,9 @@
                     <th class="border border-gray-300 px-4 py-2 text-left">Área</th>
                     <!-- <th class="border border-gray-300 px-4 py-2 text-left">Idiomas</th> -->
                     <th class="border border-gray-300 px-4 py-2 text-left">Población</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Zonas Horarias</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Creador</th>
+                    <th class="border border-gray-300 px-4 py-2 text-center">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,29 +33,45 @@
                     <td class="border border-gray-300 px-4 py-2"><%= pais.area %> km²</td>
                     <!-- <td class="border border-gray-300 px-4 py-2"><%= pais.languages ? Object.values(pais.languages).join(', ') : 'No disponible' %></td> -->
                     <td class="border border-gray-300 px-4 py-2"><%= pais.population %></td>
+                    <td class="border border-gray-300 px-4 py-2"><%= pais.timezones %></td>
+                    <td class="border border-gray-300 px-4 py-2"><%= pais.creador %></td>
+                    <td class="border border-gray-300 px-4 py-2 flex gap-1">
+                        <a href="/countries/<%= pais._id %>/editar" 
+                           class="px-3 py-1 bg-blue-500 text-white text-sm rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            Editar
+                        </a>
+                        
+                        <form action="/countries/<%= pais._id %>?_method=DELETE" method="POST" onsubmit="return confirmarEliminacion();">
+                            <button type="submit" class="border border-black bg-red-500 text-black font-bold py-1 px-2 rounded hover:bg-red-700">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 <% }); %>
             </tbody>
         </table>
+        
+        <div class="flex justify-center mt-6">
+            <!-- Botón Volver -->
+            <a href="/" 
+               class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                Volver
+            </a>
+          </div>
     </main>
 
     <br>
-    <div class="flex justify-center mt-6">
-      <!-- Botón Volver -->
-      <a href="/" 
-         class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
-          Volver
-      </a>
-    </div>
-
-    <footer class="bg-blue-500 text-white py-4 mt-6">
-        <p class="text-center">&copy; Modulo 5 -Sprint 5 - by Nodo Tecnologico - 2024</p>
-    </footer>
+    
+<br>
+    <!-- <footer class="bg-blue-500 text-white py-4 mt-auto"> -->
+        <%- include('partials/footer') %> <!-- Incluye el pie de página -->
+    <!-- </footer> -->
 
     <script>
         // Función para confirmar antes de eliminar
         function confirmarEliminacion() {
-            return confirm('¿Estás seguro de que deseas eliminar este superhéroe? Esta acción no se puede deshacer.');
+            return confirm('¿Estás seguro de que deseas eliminar este País? Esta acción no se puede deshacer.');
         }
     </script>
 </body>

@@ -1,84 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Superhéroe</title>
+    <title>Editar País</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
-    <header class="bg-blue-500 text-white py-4 mb-6">
-        <h1 class="text-center text-2xl font-bold">Editar Superhéroe</h1>
-    </header>
 
-    <main class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <form action="/heroes/<%= superheroe._id %>/editar" method="POST" class="space-y-6">
-            <!-- Nombre del Superhéroe -->
-            <div>
-                <label for="nombreSuperHeroe" class="block text-sm font-medium text-gray-700">Nombre del Superhéroe:</label>
-                <input type="text" id="nombreSuperHeroe" name="nombreSuperHeroe" value="<%= superheroe.nombreSuperHeroe %>" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" 
-                       required>
+<header>
+    <%- include('partials/navbar') %> <!-- Incluye la barra de navegación -->
+</header>
+
+<body class="bg-gray-100 font-sans">
+
+    <div class="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Editar País</h1>
+
+        <form action="/countries/<%= pais._id %>/editar" method="POST">
+
+            <!-- Campo de nombre oficial -->
+            <div class="mb-4">
+                <label for="name.official" class="block text-lg font-semibold text-gray-700">Nombre Oficial:</label>
+                <input type="text" id="name.official" name="name.official" value="<%= pais.name.official %>"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
             </div>
 
-            <!-- Nombre Real -->
-            <div>
-                <label for="nombreReal" class="block text-sm font-medium text-gray-700">Nombre Real:</label>
-                <input type="text" id="nombreReal" name="nombreReal" value="<%= superheroe.nombreReal %>" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" 
-                       required>
+            <!-- Campo de capital -->
+            <div class="mb-4">
+                <label for="capital" class="block text-lg font-semibold text-gray-700">Capital:</label>
+                <input type="text" id="capital" name="capital" value="<%= pais.capital %>"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
-            <!-- Edad -->
-            <div>
-                <label for="edad" class="block text-sm font-medium text-gray-700">Edad:</label>
-                <input type="number" id="edad" name="edad" value="<%= superheroe.edad %>" min="0" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Campo de fronteras -->
+            <div class="mb-4">
+                <label for="borders" class="block text-lg font-semibold text-gray-700">Fronteras:</label>
+                <input type="text" id="borders" name="borders[]" value="<%= pais.borders.join(', ') %>"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["FRA", "BEL"]'>
             </div>
 
-            <!-- Planeta de Origen -->
-            <div>
-                <label for="planetaOrigen" class="block text-sm font-medium text-gray-700">Planeta de Origen:</label>
-                <input type="text" id="planetaOrigen" name="planetaOrigen" value="<%= superheroe.planetaOrigen %>" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Campo de área -->
+            <div class="mb-4">
+                <label for="area" class="block text-lg font-semibold text-gray-700">Área (en km²):</label>
+                <input type="number" id="area" name="area" value="<%= pais.area %>"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
             </div>
 
-            <!-- Debilidad -->
-            <div>
-                <label for="debilidad" class="block text-sm font-medium text-gray-700">Debilidad:</label>
-                <input type="text" id="debilidad" name="debilidad" value="<%= superheroe.debilidad %>" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Campo de población -->
+            <div class="mb-4">
+                <label for="population" class="block text-lg font-semibold text-gray-700">Población:</label>
+                <input type="number" id="population" name="population" value="<%= pais.population %>"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
             </div>
 
-            <!-- Poderes -->
-            <div>
-                <label for="poderes" class="block text-sm font-medium text-gray-700">Poderes:</label>
-                <input type="text" id="poderes" name="poderes" value="<%= superheroe.poderes.join(', ') %>" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Campo de zonas horarias -->
+            <div class="mb-4">
+                <label for="timezones" class="block text-lg font-semibold text-gray-700">Zonas Horarias:</label>
+                <input type="text" id="timezones" name="timezones[]" value="<%= pais.timezones.join(', ') %>"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["GMT", "UTC+1"]'>
             </div>
 
-            <!-- Aliados -->
-            <div>
-                <label for="aliados" class="block text-sm font-medium text-gray-700">Aliados:</label>
-                <input type="text" id="aliados" name="aliados" value="<%= superheroe.aliados.join(', ') %>" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            </div>
-
-            <!-- Enemigos -->
-            <div>
-                <label for="enemigos" class="block text-sm font-medium text-gray-700">Enemigos:</label>
-                <input type="text" id="enemigos" name="enemigos" value="<%= superheroe.enemigos.join(', ') %>" 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            </div>
-
-            <!-- Botón de Guardar -->
-            <div class="flex justify-end">
-                <button type="submit" 
-                        class="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            <div class="text-center">
+                <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     Guardar Cambios
                 </button>
             </div>
+
         </form>
-    </main>
+    </div>
+
 </body>
+
+<br>
+<br>
+<br>
+<br>
+
+<footer>
+    <%- include('partials/footer') %> <!-- Incluye el pie de página -->
+</footer>
+
 </html>
