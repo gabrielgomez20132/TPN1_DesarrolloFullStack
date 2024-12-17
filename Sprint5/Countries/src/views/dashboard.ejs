@@ -9,6 +9,12 @@
     <main class="container mx-auto mt-6 flex-grow">
         <h2 class="text-xl font-semibold mb-6">Lista de Paises</h2>
 
+        <% if (message && message.length > 0) { %>
+            <div class="mb-4 bg-green-100 p-4 rounded-md text-green-700">
+                <p><%= message %></p>
+            </div>
+        <% } %>
+
         <table class="w-full border-collapse border border-gray-200 bg-white shadow-lg">
             <thead class="bg-gray-200">
                 <tr>
@@ -16,7 +22,7 @@
                     <th class="border border-gray-300 px-4 py-2 text-left">Capital</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Fronteras</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Área</th>
-                    <!-- <th class="border border-gray-300 px-4 py-2 text-left">Idiomas</th> -->
+                    <th class="border border-gray-300 px-4 py-2 text-left">Idiomas</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Población</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Zonas Horarias</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Creador</th>
@@ -31,7 +37,13 @@
                     <!-- <td class="border border-gray-300 px-4 py-2"><%= pais.capital.length > 0 ? pais.capital[0] : 'No disponible' %></td> -->
                     <td class="border border-gray-300 px-4 py-2"><%= pais.borders %></td>
                     <td class="border border-gray-300 px-4 py-2"><%= pais.area %> km²</td>
-                    <!-- <td class="border border-gray-300 px-4 py-2"><%= pais.languages ? Object.values(pais.languages).join(', ') : 'No disponible' %></td> -->
+                    <td class="border border-gray-300 px-4 py-2">
+                        <% 
+                          // Convertir el Map de idiomas en un array de valores (idiomas) y luego unirlos con comas
+                          const idiomas = Array.from(pais.languages.values()).join(', '); 
+                        %>
+                        <%= idiomas %>
+                      </td>
                     <td class="border border-gray-300 px-4 py-2"><%= pais.population %></td>
                     <td class="border border-gray-300 px-4 py-2"><%= pais.timezones %></td>
                     <td class="border border-gray-300 px-4 py-2"><%= pais.creador %></td>

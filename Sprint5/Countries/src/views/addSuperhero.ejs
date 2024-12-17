@@ -1,76 +1,119 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar un Nuevo País</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<header>
-    <%- include('partials/navbar') %> <!-- Incluye la barra de navegación -->
-</header>
 <body class="bg-gray-100 font-sans">
+
+    <header>
+        <%- include('partials/navbar') %> <!-- Incluye la barra de navegación -->
+    </header>
 
     <div class="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
         <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Agregar un Nuevo País</h1>
 
+          <!-- <% if (message) { %>
+            <div class="mb-4 bg-green-100 p-4 rounded-md text-green-700">
+              <p><%= message %></p>
+            </div>
+          <% } %> -->
+          
+          <!-- Si hay errores de validación -->
+          <% if (errors && errors.length > 0) { %>
+            <div class="mb-4 bg-red-100 p-4 rounded-md text-red-700">
+              <ul>
+                <% errors.forEach(function(error) { %>
+                  <li><%= error.msg %></li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+
         <form action="/countries" method="POST">
 
-           <!-- Campo de nombre oficial -->
+            <!-- Campo de nombre oficial -->
             <div class="mb-4">
                 <label for="name.official" class="block text-lg font-semibold text-gray-700">Nombre Oficial:</label>
-                <input type="text" id="name.official" name="name.official" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                <input type="text" id="name.official" name="name.official" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" value="<%= formData ? formData['name.official'] : '' %>" required>
+                <% if (errors && errors.find(e => e.param === 'name.official')) { %>
+                    <p class="text-red-500 text-sm"><%= errors.find(e => e.param === 'name.official').msg %></p>
+                <% } %>
             </div>
 
             <!-- Campo de capital -->
             <div class="mb-4">
                 <label for="capital" class="block text-lg font-semibold text-gray-700">Capital:</label>
-                <input type="text" id="capital" name="capital" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="text" id="capital" name="capital" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" value="<%= formData ? formData['capital'] : '' %>">
+                <% if (errors && errors.find(e => e.param === 'capital')) { %>
+                    <p class="text-red-500 text-sm"><%= errors.find(e => e.param === 'capital').msg %></p>
+                <% } %>
             </div>
 
             <!-- Campo de fronteras -->
+            <!-- Campo de fronteras -->
             <div class="mb-4">
                 <label for="borders" class="block text-lg font-semibold text-gray-700">Fronteras:</label>
-                <input type="text" id="borders" name="borders[]" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["FRA", "BEL"]'>
+                <input type="text" id="borders" name="borders" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: FRA, BEL' value="<%= formData && formData['borders'] ? formData['borders'] : '' %>">
+                <% if (errors && errors.find(e => e.param === 'borders')) { %>
+                    <p class="text-red-500 text-sm"><%= errors.find(e => e.param === 'borders').msg %></p>
+                <% } %>
             </div>
 
             <!-- Campo de área -->
             <div class="mb-4">
                 <label for="area" class="block text-lg font-semibold text-gray-700">Área (en km²):</label>
-                <input type="number" id="area" name="area" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                <input type="number" id="area" name="area" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" value="<%= formData ? formData['area'] : '' %>" required>
+                <% if (errors && errors.find(e => e.param === 'area')) { %>
+                    <p class="text-red-500 text-sm"><%= errors.find(e => e.param === 'area').msg %></p>
+                <% } %>
             </div>
 
             <!-- Campo de población -->
             <div class="mb-4">
                 <label for="population" class="block text-lg font-semibold text-gray-700">Población:</label>
-                <input type="number" id="population" name="population" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                <input type="number" id="population" name="population" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" value="<%= formData ? formData['population'] : '' %>" required>
+                <% if (errors && errors.find(e => e.param === 'population')) { %>
+                    <p class="text-red-500 text-sm"><%= errors.find(e => e.param === 'population').msg %></p>
+                <% } %>
             </div>
 
             <!-- Campo de zonas horarias -->
             <div class="mb-4">
                 <label for="timezones" class="block text-lg font-semibold text-gray-700">Zonas Horarias:</label>
-                <input type="text" id="timezones" name="timezones[]" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["GMT", "UTC+1"]'>
+                <input type="text" id="timezones" name="timezones" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: GMT, UTC+1' value="<%= formData && formData['timezones'] ? formData['timezones'] : '' %>">
+                <% if (errors && errors.find(e => e.param === 'timezones')) { %>
+                    <p class="text-red-500 text-sm"><%= errors.find(e => e.param === 'timezones').msg %></p>
+                <% } %>
             </div>
 
-       
+            <div class="mb-4">
+                <label for="languages" class="block text-lg font-semibold text-gray-700">Selecciona los Idiomas:</label>
+                <select id="languages" name="languages[]" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" multiple required>
+                    <option value="spa" <%= formData && formData['languages'] && formData['languages'].includes('spa') ? 'selected' : '' %>>Spanish</option>
+                    <option value="eng" <%= formData && formData['languages'] && formData['languages'].includes('eng') ? 'selected' : '' %>>English</option>
+                </select>
+                <% if (errors && errors.find(e => e.param === 'languages')) { %>
+                    <p class="text-red-500 text-sm"><%= errors.find(e => e.param === 'languages').msg %></p>
+                <% } %>
+            </div>
 
             <div class="text-center">
                 <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     Agregar País
                 </button>
             </div>
-
         </form>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <footer>
+        <%- include('partials/footer') %> <!-- Incluye el pie de página -->
+    </footer>
 
 </body>
-
-<br>
-<br>
-<br>
-<br>
-<footer>
-    <%- include('partials/footer') %> <!-- Incluye el pie de página -->
-</footer>
 </html>

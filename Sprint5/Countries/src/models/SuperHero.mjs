@@ -14,7 +14,10 @@ const superheroeSchema = new mongoose.Schema({
     capital: [String],
     region: String,
     subregion: String,
-    languages: Object,
+    languages: {
+      type: Map,
+      of: String,
+    },
     latlng: [Number],
     landlocked: Boolean,
     borders: {

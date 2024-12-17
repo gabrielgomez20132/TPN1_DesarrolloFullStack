@@ -147,11 +147,15 @@ class SuperHeroRepository extends IRepository{
         try {
             // Realizamos la solicitud GET asincrónica
             //const respuesta = await axios.get('https://restcountries.com/v3.1/all');
-            const paises = await SuperHero.find({ creador: 'Gabriel' });
+            const paises = await SuperHero.find({ 
+                creador: 'Gabriel',
+                'languages.spa': 'Spanish'
+                
+            });
            
            // Filtrar los países que tienen el idioma español
             const paisesConIdiomaEspañol = paises.filter(pais => pais.languages && pais.languages.spa === 'Spanish');
-           // console.log(paisesConIdiomaEspañol)
+            //console.log(paises)
 
             // Eliminar los campos no deseados (por ejemplo, 'translations', 'tld', etc.)
             const paisesFiltrados = paisesConIdiomaEspañol.map(pais => {
@@ -174,14 +178,14 @@ class SuperHeroRepository extends IRepository{
             
 
             
-            if (paisData.timezones && paisData.timezones.length === 1 && typeof paisData.timezones[0] === 'string') {
+            /* if (paisData.timezones && paisData.timezones.length === 1 && typeof paisData.timezones[0] === 'string') {
                 // Intentamos parsear el string para convertirlo en un array
                 paisData.timezones = JSON.parse(paisData.timezones[0]);
             }
             if (paisData.borders && paisData.borders.length === 1 && typeof paisData.borders[0] === 'string') {
                 // Intentamos parsear el string para convertirlo en un array
                 paisData.borders = JSON.parse(paisData.borders[0]);
-            }
+            } */
             
 
             if (!paisData.languages) {
@@ -190,14 +194,14 @@ class SuperHeroRepository extends IRepository{
     
            
         
-            paisData.languages = { "spa": "Spanish" };
+           // paisData.languages = { "spa": "Spanish" };
 
             
             paisData.creador = "Gabriel";  
         
             // Crear una nueva instancia del modelo y guardarla
             const nuevoPais = new SuperHero(paisData);
-            /* console.log('new Pais',nuevoPais); */
+            
             const paisGuardado = await nuevoPais.save();  
             /* console.log('new Pais SAVE',paisGuardado); */
             

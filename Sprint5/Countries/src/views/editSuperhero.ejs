@@ -61,6 +61,17 @@
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["GMT", "UTC+1"]'>
             </div>
 
+            <!-- Lenguajes -->
+            <div class="mb-4">
+                <label for="languages" class="block text-lg font-semibold text-gray-700">Idiomas:</label>
+                <select id="languages" name="languages[]" multiple class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <!-- Opción para Español -->
+                    <option value="spa" <%= pais.languages.has('spa') ? 'selected' : '' %>>Spanish</option>
+                    <!-- Opción para Inglés -->
+                    <option value="eng" <%= pais.languages.has('eng') ? 'selected' : '' %>>English</option>
+                </select>
+            </div>
+
             <div class="text-center">
                 <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
                     Guardar Cambios

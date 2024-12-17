@@ -32,7 +32,16 @@ export async function obtenerTodosLosSuperHeroesController(req, res){
 
 // Mostrar el formulario para agregar un superhéroe
 export const mostrarFormularioAgregar = (req, res) => {
-    res.render('addSuperhero');  // Renderiza el archivo addSuperhero.ejs
+
+    const { message } = req.query;
+  
+    // Pasar el mensaje de éxito, errores de validación o datos del formulario
+    res.render('addSuperhero', {
+      message,  // El mensaje (si existe)
+      errors: req.flash('errors'), // Errores de validación, si los hay
+      formData: req.body // Datos del formulario, en caso de haber sido enviados previamente
+    });
+
 };
 
 // Controlador para manejar la creación del superhéroe
@@ -103,7 +112,6 @@ export const actualizarSuperHeroe = async (req, res) => {
         if (borders && borders.length === 1 && typeof borders[0] === 'string') {
             // Limpiar el valor antes de parsearlo
             const cleanedBorders = borders[0].replace(/^\[|\]$/g, '').split(',').map(b => b.trim().replace(/"/g, ''));
-            
             // Convertir la cadena en un arreglo
             borders = cleanedBorders;
         }
@@ -122,10 +130,18 @@ export const actualizarSuperHeroe = async (req, res) => {
             languages = {};  
         }
 
-        // Asegúrate de que el campo 'languages' tiene al menos el idioma 'spa'
-        if (!languages.spa) {
-            languages.spa = "Spanish";  // Si no tiene 'spa', lo agregamos
+
+        // Asegurarse de que el 'languages' esté en el formato adecuado para Mongoose Map
+        const languagesMap = new Map();
+
+        // Verificar si 'languages' contiene los idiomas correctos
+        if (languages.includes('spa')) {
+            languagesMap.set('spa', 'Spanish');
         }
+        if (languages.includes('eng')) {
+            languagesMap.set('eng', 'English');
+        }
+
 
         // Buscamos el país por su ID y lo actualizamos
         const paisActualizado = await SuperHero.findByIdAndUpdate(
@@ -137,7 +153,7 @@ export const actualizarSuperHeroe = async (req, res) => {
                 area,
                 population,
                 timezones,
-                languages,
+                languages: languagesMap,
             },
             { new: true } // Devuelve el documento actualizado
         );
@@ -309,9 +325,10 @@ export async function obtenerCountriesController(req, res){
     try {
         // Llamada a la función de servicio
         const paises = await obtenerTodosPaises();
-       
-        //res.json(paises);
-        res.render('dashboard', { paises: paises });
+        const message = req.flash('message');
+
+        // Renderizar la vista dashboard con los paises y el mensaje
+        res.render('dashboard', { paises: paises, message: message });
     } catch (error) {
         console.error('Error al obtener los paises:', error);
         res.status(500).send('Error al obtener los paises');
@@ -320,18 +337,63 @@ export async function obtenerCountriesController(req, res){
 
 
 export const insertarPaisController = async (req, res) => {
+
+    if (typeof req.body.borders === 'string') {
+        req.body.borders = req.body.borders.split(',').map(b => b.trim().toUpperCase()); // Convierte la cadena en un arreglo
+    }
+
+   // Transformar las zonas horarias a un arreglo si vienen como cadena
+   if (typeof req.body.timezones === 'string') {
+        req.body.timezones = req.body.timezones.split(',').map(tz => tz.trim());
+    }
+    
+
+    const idiomasValidos = {
+        spa: "Spanish",
+        eng: "English",
+    };
+    
+    // Transformar el array en un Map
+    if (req.body.languages && Array.isArray(req.body.languages)) {
+        // Convertir el array en un Map
+        req.body.languages = req.body.languages.reduce((map, lang) => {
+            if (idiomasValidos[lang]) {
+                map.set(lang, idiomasValidos[lang]);
+            }
+            return map;
+        }, new Map());
+    }
+   
+
+    const errores = validationResult(req);
+    
+    if (!errores.isEmpty()) {
+        // Si hay errores, renderiza de nuevo el formulario y pasa los errores y los datos ingresados
+        return res.status(400).render('addSuperhero', {
+            errors: errores.array(),
+            formData: req.body  // Para que el formulario retorne los valores ingresados
+        });
+    }
+
     try {
       // Extraemos los datos del cuerpo de la solicitud
       const paisData = req.body;
   
       // Llamamos al servicio para insertar el país
       const paisCreado = await insertPaises(paisData);
+
+      // Establecer el mensaje de éxito
+        req.flash('message', 'País agregado exitosamente');
   
       // Respondemos con el país creado
       //res.status(201).json({ message: 'País agregado exitosamente', pais: paisCreado });
       res.status(201).redirect('/countries');
+
     } catch (error) {
+
       console.error('Error al insertar el país:', error);
       res.status(500).send('Error al insertar el país');
+
     }
   };
+  

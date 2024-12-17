@@ -7,6 +7,9 @@ import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
 import expressEjsLayouts from 'express-ejs-layouts';
 
+import session from 'express-session';
+import flash from 'connect-flash';
+
 dotenv.config(); // Cargar variables de entorno
 
 const app = express();
@@ -25,6 +28,22 @@ app.set('views', path.join(__dirname, 'src', 'views'));
 // Middleware para procesar solicitudes JSON y formularios
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Configurar express-session y connect-flash
+app.use(session({
+  secret: 'mi_secreto', // Puedes usar cualquier string aquí
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Configurar connect-flash
+app.use(flash());
+
+// Middleware para hacer accesibles los mensajes flash a todas las vistas
+app.use((req, res, next) => {
+  res.locals.message = req.flash('message');  // Hacer 'message' accesible a todas las vistas
+  next();
+});
 
 // Conectar a la base de datos y manejar errores de conexión
 connectDB().catch(err => {
