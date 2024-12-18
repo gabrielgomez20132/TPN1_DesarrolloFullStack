@@ -396,4 +396,40 @@ export const insertarPaisController = async (req, res) => {
 
     }
   };
+
+
+
+//Insertar estructura de paises a la BD con sus filtros correspondientes 
+export const obtenerTodosLosPaisesController = async () => {
+    try {
+      await connectDB(); // Conectar a la base de datos
+  
+      // Realizamos la solicitud GET asincrónica
+      const response = await axios.get('https://restcountries.com/v3.1/all');
+      
+      if (!response.ok) {
+        throw new Error('Error al obtener los países');
+      }
+      const paisesApi = await response.json();
+  
+      // Filtrar los países que tienen "spa" en su propiedad "languages"
+      const paisesFiltrados = paisesApi.filter(pais => pais.languages && pais.languages.spa);
+  
+      // Mapear los países filtrados para eliminar propiedades no deseadas y agregar el campo "creador"
+      const paisesModificados = paisesFiltrados.map(pais => {
+        const { translations, tld, cca2, ccn3, cca3, c1oc, idd, altSpellings, car, coatOfArms, postalCode, demonyms, ...resto } = pais;
+        return {
+          ...resto,
+          creador: 'Gabriel' 
+        };
+      });
+  
+      // Almacenar los países en la base de datos
+      await SuperHero.insertMany(paisesModificados);
+      console.log('Países almacenados en la base de datos');
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   

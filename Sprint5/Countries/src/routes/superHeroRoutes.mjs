@@ -2,7 +2,7 @@ import express from 'express';
 
 import { obtenerSuperHeroePorIdController,obtenerTodosLosSuperHeroesController ,obtenerSuperHeroesMayoresDe30Controller, buscarSuperheroesPorAtributoController ,
          insertarSuperHeroesController, editarSuperHeroesController , eliminarSuperHeroesController, eliminarByNameSuperHeroesController, mostrarFormularioAgregar, agregarSuperHeroe,  mostrarFormularioEditar, actualizarSuperHeroe, eliminarSuperHeroesControllerMvc,
-         obtenerCountriesController, insertarPaisController} from '../controllers/superheroesController.mjs';
+         obtenerCountriesController, insertarPaisController , obtenerTodosLosPaisesController} from '../controllers/superheroesController.mjs';
 
 import { validarSuperheroe } from '../validators/superheroeValidator.mjs'; // Importar el validador
 
@@ -34,6 +34,9 @@ router.get('/heroes/:id/editar', mostrarFormularioEditar);
 router.post('/heroes/:id/editar', actualizarSuperHeroe);
 router.delete('/heroes/:id', eliminarSuperHeroesControllerMvc);
 
+
+//Api
+router.get('/paises', obtenerTodosLosPaisesController);
 
 // Paises
 router.get('/countries', obtenerCountriesController);  // Mostrar todos los PAISES

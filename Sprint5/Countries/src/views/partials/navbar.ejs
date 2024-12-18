@@ -1,7 +1,16 @@
 <nav>
-    <ul class="flex justify-around bg-blue-500 text-white py-3">
-      <li><a href="/" class="hover:text-gray-300">Inicio</a></li>
-      <li><a href="/countries" class="hover:text-gray-300">Lista de Paises</a></li>
-      <li><a href="/countries/agregar" class="hover:text-gray-300">Agregar Paises</a></li>
-    </ul>
-  </nav>
+  <ul class="flex justify-around bg-blue-500 text-white py-3">
+    <li class="relative group">
+      <a href="/" class="px-4 py-2 text-xl hover:text-gray-300 transition duration-300 ease-in-out">Inicio</a>
+      <span class="absolute bottom-0 left-0 w-0 h-1 bg-white transition-all duration-300 ease-in-out group-hover:w-full"></span>
+    </li>
+    <li class="relative group">
+      <a href="/countries" class="px-4 py-2 text-xl hover:text-gray-300 transition duration-300 ease-in-out">Lista de Paises</a>
+      <span class="absolute bottom-0 left-0 w-0 h-1 bg-white transition-all duration-300 ease-in-out group-hover:w-full"></span>
+    </li>
+    <li class="relative group">
+      <a href="/countries/agregar" class="px-4 py-2 text-xl hover:text-gray-300 transition duration-300 ease-in-out">Agregar Paises</a>
+      <span class="absolute bottom-0 left-0 w-0 h-1 bg-white transition-all duration-300 ease-in-out group-hover:w-full"></span>
+    </li>
+  </ul>
+</nav>

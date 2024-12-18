@@ -141,33 +141,24 @@ class SuperHeroRepository extends IRepository{
         return result;
 
     }
-    //////////////////////////////////////////////////////////paises/////////////////////////////////////////////
 
+
+    //////////////////////////////////////////////////////////paises desde la BD/////////////////////////////////////////////
     async obtenerTodosLosPaises(){
         try {
-            // Realizamos la solicitud GET asincrónica
-            //const respuesta = await axios.get('https://restcountries.com/v3.1/all');
+            
+
             const paises = await SuperHero.find({ 
                 creador: 'Gabriel',
                 'languages.spa': 'Spanish'
                 
             });
            
-           // Filtrar los países que tienen el idioma español
-            const paisesConIdiomaEspañol = paises.filter(pais => pais.languages && pais.languages.spa === 'Spanish');
-            //console.log(paises)
-
-            // Eliminar los campos no deseados (por ejemplo, 'translations', 'tld', etc.)
-            const paisesFiltrados = paisesConIdiomaEspañol.map(pais => {
-            const { translations, tld, cca2, ccn3, cca3, cioc, idd, altSpellings, car, coatOfArms, postalCode, demonyms, ...paisFiltrado } = pais._doc;
-            return paisFiltrado;
-            });
 
             // Retornar los países filtrados
             return paises;
         
           } catch (error) {
-            // Manejo de errores
             console.error('Error al obtener los países:', error);
           }
     }
@@ -176,25 +167,11 @@ class SuperHeroRepository extends IRepository{
         
         try{
             
-
             
-            /* if (paisData.timezones && paisData.timezones.length === 1 && typeof paisData.timezones[0] === 'string') {
-                // Intentamos parsear el string para convertirlo en un array
-                paisData.timezones = JSON.parse(paisData.timezones[0]);
-            }
-            if (paisData.borders && paisData.borders.length === 1 && typeof paisData.borders[0] === 'string') {
-                // Intentamos parsear el string para convertirlo en un array
-                paisData.borders = JSON.parse(paisData.borders[0]);
-            } */
-            
-
             if (!paisData.languages) {
                 paisData.languages = {};  // Si no existe, inicializamos 'languages'
             }
     
-           
-        
-           // paisData.languages = { "spa": "Spanish" };
 
             
             paisData.creador = "Gabriel";  
@@ -203,15 +180,13 @@ class SuperHeroRepository extends IRepository{
             const nuevoPais = new SuperHero(paisData);
             
             const paisGuardado = await nuevoPais.save();  
-            /* console.log('new Pais SAVE',paisGuardado); */
             
-            // Retornar el país guardado
             return paisGuardado;
           
          
         } catch (error) {
             console.error("Error al insertar el país:", error);
-            throw new Error("Error al insertar el país"); // O manejarlo de manera específica
+            throw new Error("Error al insertar el país");
         }
       };
 }
