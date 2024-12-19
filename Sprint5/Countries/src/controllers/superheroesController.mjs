@@ -78,21 +78,66 @@ export const agregarSuperHeroe = async (req, res) => {
 export const mostrarFormularioEditar = async (req, res) => {
     try {
         const { id } = req.params;
-        const pais = await SuperHero.findById(id);
-
+        const pais = await SuperHero.findById(id); // Se busca el superhéroe por ID
+    
         if (!pais) {
-            return res.status(404).send({ mensaje: "Superhéroe no encontrado" });
+          // Si no se encuentra el superhéroe, se devuelve un error
+          return res.status(404).send({ mensaje: "Superhéroe no encontrado" });
         }
-
-        // Renderiza el formulario y pasa los datos del superhéroe
-        res.render('editSuperhero', { pais });
-    } catch (error) {
+    
+        // Obtener mensaje de éxito, errores de validación o datos del formulario
+        const { message } = req.query;  // Obtener el mensaje de la URL (query string)
+        
+        // Renderiza el formulario de edición y pasa los datos del superhéroe,
+        // los errores de validación (si los hay), y los datos del formulario
+        res.render('editSuperhero', {
+          pais,             // Datos del superhéroe que se editarán
+          message,          // El mensaje (si existe) para mostrar en la vista
+          errors: req.flash('errors'), // Errores de validación, si los hay
+          formData: req.body // Datos del formulario (en caso de que se hayan enviado previamente)
+        });
+      } catch (error) {
+        // Manejo de errores en caso de fallo al buscar el superhéroe
         console.error('Error al buscar el superhéroe:', error);
         res.status(500).send('Error interno del servidor');
-    }
+      }
 };
 
 export const actualizarSuperHeroe = async (req, res) => {
+
+    let { borders } = req.body;
+
+    if (Array.isArray(borders) && borders.length === 1 && typeof borders[0] === 'string') {
+        borders = borders[0];  // Extraemos la cadena
+    }
+    
+    
+    if (typeof borders === 'string') {
+        borders = borders.split(',').map(b => b.trim().toUpperCase());
+        
+    }
+    
+    // Almacenamos el valor actualizado de 'borders'
+    req.body.borders = borders;
+    
+
+
+    const errors = validationResult(req);    
+    if (!errors.isEmpty()) {
+        // Si hay errores, renderizamos la vista y pasamos los errores bajo la variable 'errores'
+        let pais = req.body;  // Usamos los valores que el usuario intentó enviar
+
+        // Si los valores están vacíos (por ejemplo, nombre oficial), buscamos el país de la base de datos
+        if (!pais.name) {
+            pais = await SuperHero.findById(req.params.id); // Buscamos el país en la base de datos
+        }
+
+        return res.render('editSuperhero', {
+            pais, 
+            errors: errors.array()  // Pasamos los errores con la clave 'errors'
+        });
+    }
+
     try {
         // Procesamos el cuerpo para asegurarnos de que los campos tengan el formato correcto
         let { 

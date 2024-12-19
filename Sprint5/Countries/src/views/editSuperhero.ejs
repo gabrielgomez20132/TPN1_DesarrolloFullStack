@@ -19,57 +19,118 @@
 
         <form action="/countries/<%= pais._id %>/editar" method="POST">
 
+            <!-- Mostrar errores globales, si los hay -->
+            <% if (errors && errors.length > 0) { %>
+                <div class="mb-4 bg-red-100 p-4 rounded-md text-red-700">
+                    <ul>
+                        <% errors.forEach(function(error) { %>
+                            <li><%= error.msg %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% } %>
+
             <!-- Campo de nombre oficial -->
             <div class="mb-4">
                 <label for="name.official" class="block text-lg font-semibold text-gray-700">Nombre Oficial:</label>
-                <input type="text" id="name.official" name="name.official" value="<%= pais.name.official %>"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                <input type="text" id="name.official" name="name.official" 
+                    value="<%= pais && pais.name && pais.name.official ? pais.name.official : '' %>"
+                    class="w-full px-4 py-2 border <%= errors && errors.some(e => e.param === 'name.official') ? 'border-red-500' : 'border-gray-300' %> rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                <% if (errors && errors.some(e => e.param === 'name.official')) { %>
+                    <div class="text-red-600">
+                        <% errors.filter(e => e.param === 'name.official').forEach(function(error) { %>
+                            <p><%= error.msg %></p>
+                        <% }) %>
+                    </div>
+                <% } %>
             </div>
 
             <!-- Campo de capital -->
             <div class="mb-4">
                 <label for="capital" class="block text-lg font-semibold text-gray-700">Capital:</label>
-                <input type="text" id="capital" name="capital" value="<%= pais.capital %>"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <input type="text" id="capital" name="capital" value="<%= pais ? pais.capital : '' %>"
+                    class="w-full px-4 py-2 border <%= errors && errors.some(e => e.param === 'capital') ? 'border-red-500' : 'border-gray-300' %> rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+                <!-- Mostrar mensaje de error para este campo -->
+                <% if (errors && errors.some(e => e.param === 'capital')) { %>
+                    <p class="text-red-600 text-sm">
+                        <%= errors.find(e => e.param === 'capital').msg %>
+                    </p>
+                <% } %>
             </div>
 
             <!-- Campo de fronteras -->
             <div class="mb-4">
                 <label for="borders" class="block text-lg font-semibold text-gray-700">Fronteras:</label>
-                <input type="text" id="borders" name="borders[]" value="<%= pais.borders.join(', ') %>"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["FRA", "BEL"]'>
+                <input type="text" id="borders" name="borders" value="<%= pais ? pais.borders.join(', ') : '' %>"
+                    class="w-full px-4 py-2 border <%= errors && errors.some(e => e.param === 'borders') ? 'border-red-500' : 'border-gray-300' %> rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["FRA", "BEL"]'>
+
+                <!-- Mostrar mensaje de error para este campo -->
+                <% if (errors && errors.some(e => e.param === 'borders')) { %>
+                    <p class="text-red-600 text-sm">
+                        <%= errors.find(e => e.param === 'borders').msg %>
+                    </p>
+                <% } %>
             </div>
 
             <!-- Campo de área -->
             <div class="mb-4">
                 <label for="area" class="block text-lg font-semibold text-gray-700">Área (en km²):</label>
-                <input type="number" id="area" name="area" value="<%= pais.area %>"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                <input type="number" id="area" name="area" value="<%= pais ? pais.area : '' %>"
+                    class="w-full px-4 py-2 border <%= errors && errors.some(e => e.param === 'area') ? 'border-red-500' : 'border-gray-300' %> rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+
+                <!-- Mostrar mensaje de error para este campo -->
+                <% if (errors && errors.some(e => e.param === 'area')) { %>
+                    <p class="text-red-600 text-sm">
+                        <%= errors.find(e => e.param === 'area').msg %>
+                    </p>
+                <% } %>
             </div>
 
             <!-- Campo de población -->
             <div class="mb-4">
                 <label for="population" class="block text-lg font-semibold text-gray-700">Población:</label>
-                <input type="number" id="population" name="population" value="<%= pais.population %>"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                <input type="number" id="population" name="population" value="<%= pais ? pais.population : '' %>"
+                    class="w-full px-4 py-2 border <%= errors && errors.some(e => e.param === 'population') ? 'border-red-500' : 'border-gray-300' %> rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+
+                <!-- Mostrar mensaje de error para este campo -->
+                <% if (errors && errors.some(e => e.param === 'population')) { %>
+                    <p class="text-red-600 text-sm">
+                        <%= errors.find(e => e.param === 'population').msg %>
+                    </p>
+                <% } %>
             </div>
 
             <!-- Campo de zonas horarias -->
             <div class="mb-4">
                 <label for="timezones" class="block text-lg font-semibold text-gray-700">Zonas Horarias:</label>
-                <input type="text" id="timezones" name="timezones[]" value="<%= pais.timezones.join(', ') %>"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["GMT", "UTC+1"]'>
+                <input type="text" id="timezones" name="timezones" value="<%= pais ? pais.timezones.join(', ') : '' %>"
+                    class="w-full px-4 py-2 border <%= errors && errors.some(e => e.param === 'timezones') ? 'border-red-500' : 'border-gray-300' %> rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder='Ejemplo: ["GMT", "UTC+1"]'>
+
+                <!-- Mostrar mensaje de error para este campo -->
+                <% if (errors && errors.some(e => e.param === 'timezones')) { %>
+                    <p class="text-red-600 text-sm">
+                        <%= errors.find(e => e.param === 'timezones').msg %>
+                    </p>
+                <% } %>
             </div>
 
             <!-- Lenguajes -->
             <div class="mb-4">
                 <label for="languages" class="block text-lg font-semibold text-gray-700">Idiomas:</label>
-                <select id="languages" name="languages[]" multiple class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <select id="languages" name="languages[]" multiple class="w-full px-4 py-2 border <%= errors && errors.some(e => e.param === 'languages') ? 'border-red-500' : 'border-gray-300' %> rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                     <!-- Opción para Español -->
-                    <option value="spa" <%= pais.languages.has('spa') ? 'selected' : '' %>>Spanish</option>
+                    <option value="spa" <%= pais && pais.languages.has('spa') ? 'selected' : '' %>>Spanish</option>
                     <!-- Opción para Inglés -->
-                    <option value="eng" <%= pais.languages.has('eng') ? 'selected' : '' %>>English</option>
+                    <option value="eng" <%= pais && pais.languages.has('eng') ? 'selected' : '' %>>English</option>
                 </select>
+
+                <!-- Mostrar mensaje de error para este campo -->
+                <% if (errors && errors.some(e => e.param === 'languages')) { %>
+                    <p class="text-red-600 text-sm">
+                        <%= errors.find(e => e.param === 'languages').msg %>
+                    </p>
+                <% } %>
             </div>
 
             <div class="text-center">
